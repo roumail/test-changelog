@@ -22,7 +22,6 @@ jobs:
           if [[ ${exit_code:-0} -ne 0 ]]; then
             echo "Python script failed with exit code ${exit_code:-0}"
             echo "Performing cleanup actions"
-            # Insert cleanup actions here
             exit ${exit_code:-0}  # Exit with the original exit code of the Python script
           else
             echo "new_version=${new_version}" >> "$GITHUB_OUTPUT"
