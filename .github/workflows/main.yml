@@ -5,17 +5,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-  bump_version:
-    # Only bump version on the merge of a pull request
-    name: Bump version
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-        run: pip install keepachangelog==2.0.0.dev5
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install changelog
+        run: python3 -m pip install keepachangelog==2.0.0.dev5
       - name: Update changelog
         id: changelog
         run: |
