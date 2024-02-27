@@ -17,6 +17,14 @@ jobs:
       - name: Update changelog
         id: changelog
         run: |
-          echo "new_version=$(python3 -m keepachangelog release)" >> "$GITHUB_OUTPUT"
-          echo "Bumping version to ${{steps.changelog.outputs.new_version}}"      
-          
+          set -e  # Ensure the script exits on any error
+          new_version=$(python3 -m keepachangelog release) || exit_code=$?
+          if [[ ${exit_code:-0} -ne 0 ]]; then
+            echo "Python script failed with exit code ${exit_code:-0}"
+            echo "Performing cleanup actions"
+            # Insert cleanup actions here
+            exit ${exit_code:-0}  # Exit with the original exit code of the Python script
+          else
+            echo "new_version=${new_version}" >> "$GITHUB_OUTPUT"
+            echo "Bumping version to ${new_version}"
+          fi          
